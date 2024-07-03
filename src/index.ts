@@ -1,4 +1,4 @@
-const express = require('express');
+import express, {Request, Response} from 'express';
 
 const app = express();
 const port = 3000;
@@ -17,26 +17,26 @@ let employees = [
 ];
 
 // Get all companies
-app.get('/companies', (req, res) => {
+app.get('/companies', (req: Request, res: Response) => {
   res.json(companies);
 });
 
 // Add a new company
-app.post('/companies', (req, res) => {
+app.post('/companies', (req: Request, res: Response) => {
   const newCompany = { id: companies.length + 1, ...req.body };
   companies.push(newCompany);
   res.status(201).json(newCompany);
 });
 
 // Get all employees of a company
-app.get('/companies/:companyId/employees', (req, res) => {
+app.get('/companies/:companyId/employees', (req: Request, res: Response) => {
   const companyId = req.params.companyId;
-  const companyEmployees = employees.filter(emp => emp.companyId == companyId);
+  const companyEmployees = employees.filter(emp => emp.companyId === Number(companyId));
   res.json(companyEmployees);
 });
 
 // Add a new employee to a company
-app.post('/companies/:companyId/employees', (req, res) => {
+app.post('/companies/:companyId/employees', (req: Request, res: Response) => {
   const companyId = parseInt(req.params.companyId);
   const newEmployee = { id: employees.length + 1, companyId, ...req.body };
   employees.push(newEmployee);
